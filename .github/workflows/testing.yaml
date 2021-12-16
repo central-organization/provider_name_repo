@@ -22,13 +22,23 @@ jobs:
     needs: sanity_check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: clone central repo and submodules
+        uses: actions/checkout@v2
+        with:
+          repository: central-organization/master_repo
+          ref: master
+
+      - name: Update each submodule's head
+        run: git submodule update --remote --recursive
+
+      - name: run LS
+        run: ls
 
       - name: set env variables
         run: echo set env variables
 
       - name: check python version
-        run: python --version | grep "3.8.4" || exit 1
+        run: python --version | grep "3.8.10" || exit 1
 
       - name: install requirements
         run: echo requirements
