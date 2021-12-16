@@ -10,3 +10,5 @@ on:
 jobs:
   call-workflow-passing-data:
     uses: central-organization/ci_repo/.github/workflows/update_submodules_bot.yml@update-submodule
+    secrets:
+      token: ${{ secrets.SUPER_TOKEN }}
