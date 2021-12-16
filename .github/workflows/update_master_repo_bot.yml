@@ -2,7 +2,7 @@ name: Update submodules
 
 on:
   push:
-    branches: [ master ]
+    branches: [  update_master_repo_bot  ]
 
   workflow_dispatch:
 
