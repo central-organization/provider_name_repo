@@ -10,3 +10,5 @@ on:
 jobs:
   call-workflow-passing-data:
     uses: central-organization/ci_repo/.github/workflows/hello_world.yml@test-branch
+    secrets:
+      token: ${{ secrets.SUPER_TOKEN }}
