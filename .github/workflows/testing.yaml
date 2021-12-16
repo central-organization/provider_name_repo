@@ -61,4 +61,4 @@ jobs:
           a=$(find ~ -name pages)
           cd $a
           ls
-          cat *
+          grep "" *.log
