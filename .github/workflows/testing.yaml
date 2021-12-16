@@ -1,0 +1,46 @@
+name: Testing workflow
+
+on:
+  pull_request:
+    branches: [ master ]
+    types: [ labeled ]
+
+jobs:
+  sanity_check:
+    if: ${{ github.event.label.name == 'integration' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: check PR content
+        run: echo PR content is valid
+
+  stage_1:
+    needs: sanity_check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: set env variables
+      - run: echo set env variables
+      
+      - name: check python version
+      - run: python --version
+
+      - name: install requirements
+      - run: echo requirements
+
+      - name: download package archive
+      - run: echo download
+
+      - name: unzip package archive
+      - run: echo unzip
+
+      - name: run Stage-1 tests
+      - run: echo run stage-1
+
+      - name: check if all tests passed
+      - run: echo check
+
+      - name: archive and upload logs
+      - run: echo logs upload
