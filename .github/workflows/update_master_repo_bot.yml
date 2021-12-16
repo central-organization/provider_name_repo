@@ -1,0 +1,12 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+
+jobs:
+  call-workflow-passing-data:
+    uses: central-organization/ci_repo/.github/workflows/hello_world.yml@test-branch
