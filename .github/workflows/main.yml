@@ -17,4 +17,4 @@ on:
 jobs:
   # This workflow calls another workflow"
   call-workflow-passing-data:
-    uses: central-organization/ci_repo/.github/workflows/hello_world.yml@test-branch
+    uses: central-organization/ci_repo/.github/workflows/hello_world.yml@master
