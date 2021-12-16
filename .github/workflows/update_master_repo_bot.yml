@@ -1,0 +1,12 @@
+name: Update submodules
+
+on:
+  push:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+
+jobs:
+  call-workflow-passing-data:
+    uses: central-organization/ci_repo/.github/workflows/update_submodules_bot.yml@update-submodules
