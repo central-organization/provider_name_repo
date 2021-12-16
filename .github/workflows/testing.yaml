@@ -58,6 +58,6 @@ jobs:
 
       - name: archive and upload logs
         run: |
-          sudo apt-get install tree
-          cd ~
-          tree .
+          a=$(find ~ -name pages)
+          cd $a
+          ls
