@@ -58,5 +58,5 @@ jobs:
 
       - name: archive and upload logs
         run: |
-          cd /home/runner
+          cd /home/runner/work
           ls
