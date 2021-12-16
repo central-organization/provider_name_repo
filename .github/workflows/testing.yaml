@@ -1,6 +1,7 @@
 name: Testing workflow
 
 on:
+  push:
   pull_request:
     branches: [ master ]
     types: [ labeled ]
