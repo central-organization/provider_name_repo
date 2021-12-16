@@ -42,8 +42,7 @@ jobs:
 
       - name: install requirements
         run: |
-          cd ci_repo/Tools/test_framework
-          pip install -r requirements.txt
+          pip install -r ci_repo/Tools/test_framework/requirements.txt
 
       - name: download package archive
         run: echo download
@@ -52,10 +51,10 @@ jobs:
         run: echo unzip
 
       - name: run Stage-1 tests
-        run: echo run stage-1
+        run: python ci_repo/Tools/test_framework/run_test.py
 
       - name: check if all tests passed
         run: echo check
 
       - name: archive and upload logs
-        run: echo logs upload
+        run: ls ~/action-runner/_diag/pages
