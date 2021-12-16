@@ -5,9 +5,11 @@ on:
     branches: [ master ]
     types: [ labeled ]
 
+  workflow_dispatch:
+
 jobs:
   sanity_check:
-    if: ${{ github.event.label.name == 'integration' }}
+    # if: ${{ github.event.label.name == 'integration' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -25,7 +27,7 @@ jobs:
         run: echo set env variables
 
       - name: check python version
-        run: python --version
+        run: python --version | grep "3.8.4" || exit 1
 
       - name: install requirements
         run: echo requirements
