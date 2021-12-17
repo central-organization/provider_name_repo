@@ -1,7 +1,6 @@
 name: Testing workflow
 
 on:
-  push:
   pull_request:
     branches: [ master ]
     types: [ labeled ]
@@ -22,14 +21,12 @@ jobs:
     needs: sanity_check
     runs-on: ubuntu-latest
     steps:
-      - name: clone central repo and submodules
-        uses: actions/checkout@v2
+      - name: clone master repo and submodules
+        uses: central-organization/ci_repo/.github/actions/checkout_repo_with_submodules@master
         with:
-          repository: central-organization/master_repo
+          repo: central-organization/master_repo
           ref: master
-
-      - name: Update each submodule's head
-        run: git submodule update --init --recursive
+          token: ${{ secrets.SUPER_TOKEN }}
 
       - name: run LS
         run: ls
@@ -59,7 +56,9 @@ jobs:
       - name: archive and upload logs
         run: |
           a=$(find ~ -name pages)
-          cd $a
-          ls
-          grep "" *.log >> all_log_files.log
-          cat all_log_files.log
+          cp $a/*.log ci_repo/output
+          grep "" $a/*.log >> ci_repo/output/all_log_files.log
+          tar czvf build_logs_commit_timestamp.tar.gz ci_repo/output/
+          file=$(build_logs_commit_timestamp.tar.gz)
+          curl -v --user ${{ secrets.JFROG_USERNAME }}:${{ secrets.JFROG_PASSWORD }} --data-binary @$file -X PUT "https://centralorg.jfrog.io/artifactory/Output_logs/$file"
+
