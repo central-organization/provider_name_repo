@@ -8,7 +8,7 @@ on:
 
 jobs:
   sanity_check:
-    if: ${{ github.event.label.name == 'integration' }}
+    # if: ${{ github.event.label.name == 'integration' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
