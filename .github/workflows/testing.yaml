@@ -1,9 +1,10 @@
 name: Testing workflow
 
 on:
-  pull_request:
-    branches: [ master ]
-    types: [ labeled ]
+  push:
+  # pull_request:
+  #   branches: [ master ]
+  #   types: [ labeled ]
 
 jobs:
   sanity_check:
@@ -31,25 +32,25 @@ jobs:
         run: git diff ${{ github.event.pull_request.base.sha }}...${{ github.sha }}
 
       - name: set env variables
-      - run: echo set env variables
+        run: echo set env variables
 
       - name: check python version
-      - run: python --version
+        run: python --version
 
       - name: install requirements
-      - run: echo requirements
+        run: echo requirements
 
       - name: download package archive
-      - run: echo download
+        run: echo download
 
       - name: unzip package archive
-      - run: echo unzip
+        run: echo unzip
 
       - name: run Stage-1 tests
-      - run: echo run stage-1
+        run: echo run stage-1
 
       - name: check if all tests passed
-      - run: echo check
+        run: echo check
 
       - name: archive and upload logs
-      - run: echo logs upload
+        run: echo logs upload
