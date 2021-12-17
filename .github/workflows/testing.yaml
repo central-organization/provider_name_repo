@@ -20,6 +20,7 @@ jobs:
       - name: check PR content
         run: |
           pwd
+          ls
           python ci_repo/Scripts/validate_pr_diff.py --pr_base_sha ${{ github.event.pull_request.base.sha }} --pr_head_sha ${{ github.sha }}
 
   stage_1:
