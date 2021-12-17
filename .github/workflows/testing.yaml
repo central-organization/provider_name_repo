@@ -11,10 +11,14 @@ jobs:
     # if: ${{ github.event.label.name == 'integration' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: clone central repo and submodules
+        uses: actions/checkout@v2
+        with:
+          repository: central-organization/master_repo
+          ref: master
 
       - name: check PR content
-        run: echo PR content is valid
+        run: python ci_repo/Scripts/validate_pr_diff.py --pr_base_sha ${{ github.event.pull_request.base.sha }} --pr_head_sha ${{ github.sha }}
 
   stage_1:
     needs: sanity_check
@@ -23,18 +27,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: echo github.event.pull_request.base.sha
-        run: echo aa -- ${{ github.event.pull_request.base.sha }} --
-
-      - name: echo github.sha
-        run: echo aa -- ${{ github.sha }} --
-
-      - name: git diff
-        run: git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }}
-
-      - name: git diff
-        run: git diff ${{ github.event.pull_request.base.sha }}...${{ github.sha }}
 
       - name: set env variables
         run: echo set env variables
