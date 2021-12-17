@@ -18,7 +18,9 @@ jobs:
           ref: master
 
       - name: check PR content
-        run: python ci_repo/Scripts/validate_pr_diff.py --pr_base_sha ${{ github.event.pull_request.base.sha }} --pr_head_sha ${{ github.sha }}
+        run: |
+          pwd
+          python ci_repo/Scripts/validate_pr_diff.py --pr_base_sha ${{ github.event.pull_request.base.sha }} --pr_head_sha ${{ github.sha }}
 
   stage_1:
     needs: sanity_check
