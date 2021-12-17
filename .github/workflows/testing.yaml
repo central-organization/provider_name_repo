@@ -1,11 +1,14 @@
 name: Testing workflow
 
 on:
+  push:
   pull_request:
     branches: [ master ]
     types: [ labeled ]
-
+  workflow_call:
   workflow_dispatch:
+
+  
 
 jobs:
   sanity_check:
@@ -54,11 +57,15 @@ jobs:
         run: echo check
 
       - name: archive and upload logs
+        if: always()
         run: |
+          echo "__starrt__"
+          echo $GITHUB_ACTION
+          echo $GITHUB_JOB
+          echo "__end__"
           a=$(find ~ -name pages)
-          cp $a/*.log ci_repo/output
-          grep "" $a/*.log >> ci_repo/output/all_log_files.log
-          tar czvf build_logs_commit_timestamp.tar.gz ci_repo/output/
-          file=$(build_logs_commit_timestamp.tar.gz)
-          curl -v --user ${{ secrets.JFROG_USERNAME }}:${{ secrets.JFROG_PASSWORD }} --data-binary @$file -X PUT "https://centralorg.jfrog.io/artifactory/Output_logs/$file"
-
+          cp $a/*.log ci_repo/Tools/test_framework/output/
+          tar -czvf build_logs_commit_timestamp.tar.gz --directory=ci_repo/Tools/test_framework output
+          export file=build_logs_commit_timestamp.tar.gz
+          python ci_repo/Scripts/artifact_upload.py  --file $file --artifactory_path https://centralorg.jfrog.io/artifactory/Output_logs/$file --username ${{ secrets.JFROG_USERNAME }} --password ${{ secrets.JFROG_PASSWORD }}
+        shell: bash
