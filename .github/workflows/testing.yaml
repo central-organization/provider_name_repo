@@ -22,8 +22,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: git diff ..
-        run: git diff ${{ github.event.pull_request.base.sha }}..${{ github.sha }}
+      - name: echo github.event.pull_request.base.sha
+        run: echo aa -- ${{ github.event.pull_request.base.sha }} --
+
+      - name: echo github.sha
+        run: echo aa -- ${{ github.sha }} --
 
       - name: git diff
         run: git diff ${{ github.event.pull_request.base.sha }} ${{ github.sha }}
