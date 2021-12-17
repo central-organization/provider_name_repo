@@ -21,7 +21,7 @@ jobs:
       - name: check PR content
         run: |
           pwd
-          python ci_repo/Scripts/validate_pr_diff.py --git_repo_path $(pwd)/provider_name_repo --pr_base_sha ${{ github.event.pull_request.base.sha }} --pr_head_sha ${{ github.sha }}
+          python ci_repo/Scripts/validate_pr_diff.py --git_repo_path $(pwd)/Provider_submodules/provider_name_repo --pr_base_sha ${{ github.event.pull_request.base.sha }} --pr_head_sha ${{ github.sha }}
 
   stage_1:
     needs: sanity_check
