@@ -11,16 +11,19 @@ jobs:
     # if: ${{ github.event.label.name == 'integration' }}
     runs-on: ubuntu-latest
     steps:
-      - name: clone central repo and submodules
-        uses: actions/checkout@v2
+      - name: clone master repo and submodules
+        uses: central-organization/ci_repo/.github/actions/checkout_repo_with_submodules@master
         with:
-          repository: central-organization/master_repo
+          repo: central-organization/master_repo
           ref: master
+          token: ${{ secrets.SUPER_TOKEN }}
 
       - name: check PR content
         run: |
           pwd
           ls
+          ls ci_repo
+          ls ci_repo/scripts
           python ci_repo/Scripts/validate_pr_diff.py --pr_base_sha ${{ github.event.pull_request.base.sha }} --pr_head_sha ${{ github.sha }}
 
   stage_1:
