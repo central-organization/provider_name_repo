@@ -33,11 +33,11 @@ jobs:
       - name: print github.sha
         run: echo $ {{ github.sha }}
 
-      - name: print $(pwd)/Provider_submodules/provider_name_rep
-        run: echo $(pwd)/Provider_submodules/provider_name_rep
+      - name: ls pwd
+        run: ls $(pwd)
 
-      - name: ls $(pwd)/Provider_submodules/provider_name_rep
-        run: ls $(pwd)/Provider_submodules/provider_name_rep
+      - name: print pwd
+        run: pwd
 
       - name: check PR content
         run: |
