@@ -27,6 +27,18 @@ jobs:
       - run: git submodule update --init --remote --recursive
         shell: bash
 
+      - name: print github.event.pull_request.base.sha
+        run: echo ${{ github.event.pull_request.base.sha }}
+
+      - name: print github.sha
+        run: echo $ {{ github.sha }}
+
+      - name: print $(pwd)/Provider_submodules/provider_name_rep
+        run: echo $(pwd)/Provider_submodules/provider_name_rep
+
+      - name: ls $(pwd)/Provider_submodules/provider_name_rep
+        run: ls $(pwd)/Provider_submodules/provider_name_rep
+
       - name: check PR content
         run: |
           pwd
