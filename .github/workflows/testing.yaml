@@ -11,13 +11,21 @@ jobs:
     # if: ${{ github.event.label.name == 'integration' }}
     runs-on: ubuntu-latest
     steps:
-      - name: clone master repo and submodules
-        uses: central-organization/ci_repo/.github/actions/checkout_repo_with_submodules@master
+      # - name: clone master repo and submodules
+      #   uses: central-organization/ci_repo/.github/actions/checkout_repo_with_submodules@master
+      #   with:
+      #     fetch-depth: 0
+      #     repo: central-organization/master_repo
+      #     ref: master
+      #     token: ${{ secrets.SUPER_TOKEN }}
+
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          repo: central-organization/master_repo
-          ref: master
+          repository: central-organization/master_repo
           token: ${{ secrets.SUPER_TOKEN }}
+      - run: git submodule update --init --remote --recursive
+        shell: bash
 
       - name: check PR content
         run: |
