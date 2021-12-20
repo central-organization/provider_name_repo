@@ -49,7 +49,7 @@ jobs:
         run: |
           pwd
           ls $(pwd)/Provider_submodules/provider_name_repo
-          python ci_repo/Scripts/validate_pr_diff.py --git_repo_path $(pwd)/Provider_submodules/provider_name_repo --pr_base_sha ${{ github.event.pull_request.base.sha }} --pr_head_sha ${{ github.sha }}
+          python ci_repo/Scripts/validate_pr_diff.py --git_repo_path $(pwd)/Provider_submodules/provider_name_repo --pr_base_sha origin/master --pr_head_sha origin/${{ github.event.pull_request.head.ref }}
 
   stage_1:
     needs: sanity_check
