@@ -11,27 +11,32 @@ jobs:
     # if: ${{ github.event.label.name == 'integration' }}
     runs-on: ubuntu-latest
     steps:
-      # - name: clone master repo and submodules
-      #   uses: central-organization/ci_repo/.github/actions/checkout_repo_with_submodules@master
-      #   with:
-      #     fetch-depth: 0
-      #     repo: central-organization/master_repo
-      #     ref: master
-      #     token: ${{ secrets.SUPER_TOKEN }}
-
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
           repository: central-organization/master_repo
           token: ${{ secrets.SUPER_TOKEN }}
-      - run: git submodule update --init --remote --recursive
+          path: master_repo
+
+      - run: |
+          git -C $GITHUB_WORKSPACE/master_repo submodule update --init --remote --recursive
         shell: bash
 
-      - name: git diff
+      - name: Checkout correct branch on PR repo
         run: |
-          cd $(pwd)/Provider_submodules/provider_name_repo
-          ls
-          git diff origin/master origin/${{ github.event.pull_request.head.ref }}
+          repo_name=$(cut -d "/" -f2 <<<$GITHUB_REPOSITORY)
+          cd $GITHUB_WORKSPACE/master_repo/Provider_submodules/$repo_name
+          git checkout $GITHUB_HEAD_REF
+          echo "##############"
+          git log
+          echo "##############"
+          pwd
+
+      # - name: git diff
+      #   run: |
+      #     cd $(pwd)/Provider_submodules/provider_name_repo
+      #     ls
+      #     git diff origin/master origin/${{ github.event.pull_request.head.ref }}
 
       - name: print github.event.pull_request.base.sha
         run: echo ${{ github.event.pull_request.base.sha }}
