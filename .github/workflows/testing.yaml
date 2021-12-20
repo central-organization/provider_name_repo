@@ -27,6 +27,12 @@ jobs:
       - run: git submodule update --init --remote --recursive
         shell: bash
 
+      - name: git diff
+        run: |
+          cd $(pwd)/Provider_submodules/provider_name_repo
+          ls
+          git diff origin/master origin/${{ github.event.pull_request.head.ref }}
+
       - name: print github.event.pull_request.base.sha
         run: echo ${{ github.event.pull_request.base.sha }}
 
