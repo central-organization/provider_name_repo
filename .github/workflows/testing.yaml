@@ -1,5 +1,8 @@
 name: Testing workflow
 
+env:
+  GIT_REPO_PATH: ""
+
 on:
   # push:
   pull_request:
@@ -11,6 +14,10 @@ jobs:
     # if: ${{ github.event.label.name == 'integration' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Set environment variables
+        run: |
+          echo "GIT_REPO_PATH=$GITHUB_WORKSPACE/master_repo/Provider_submodules/$(cut -d "/" -f2 <<<$GITHUB_REPOSITORY)" >> $GITHUB_ENV
+
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
@@ -24,37 +31,19 @@ jobs:
 
       - name: Checkout correct branch on PR repo
         run: |
-          repo_name=$(cut -d "/" -f2 <<<$GITHUB_REPOSITORY)
-          cd $GITHUB_WORKSPACE/master_repo/Provider_submodules/$repo_name
-          git checkout $GITHUB_HEAD_REF
+          git -C ${{ env.GIT_REPO_PATH }} checkout $GITHUB_HEAD_REF
           echo "##############"
-          git log
-          echo "##############"
+          git -C ${{ env.GIT_REPO_PATH }} log
+
+      - name: ls and print pwd
+        run: |
           pwd
-
-      # - name: git diff
-      #   run: |
-      #     cd $(pwd)/Provider_submodules/provider_name_repo
-      #     ls
-      #     git diff origin/master origin/${{ github.event.pull_request.head.ref }}
-
-      - name: print github.event.pull_request.base.sha
-        run: echo ${{ github.event.pull_request.base.sha }}
-
-      - name: print github.sha
-        run: echo $ {{ github.sha }}
-
-      - name: ls pwd
-        run: ls $(pwd)
-
-      - name: print pwd
-        run: pwd
+          ls $(pwd)
 
       - name: check PR content
         run: |
-          pwd
-          ls $(pwd)/Provider_submodules/provider_name_repo
-          python ci_repo/Scripts/validate_pr_diff.py --git_repo_path $(pwd)/Provider_submodules/provider_name_repo --pr_base_sha origin/master --pr_head_sha origin/${{ github.event.pull_request.head.ref }}
+          echo ${{ env.GIT_REPO_PATH }}
+          # python $GITHUB_WORKSPACE/master_repo/ci_repo/Scripts/validate_unit_configuration.py --git_repo_path $(pwd)/Provider_submodules/provider_name_repo --pr_base_sha origin/master --pr_head_sha origin/${{ github.event.pull_request.head.ref }}
 
   stage_1:
     needs: sanity_check
