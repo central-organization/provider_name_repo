@@ -10,6 +10,6 @@ on:
 
 jobs:
   call-stage-1-testing-workflow:
-    uses: central-organization/ci_repo/.github/workflows/stage-1-execution.yml@master
+    uses: central-organization/ci_repo/.github/workflows/stage-1-execution.yml@modify_workflow
     secrets:
       token: ${{ secrets.SUPER_TOKEN }}
