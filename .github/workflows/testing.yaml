@@ -25,16 +25,15 @@ jobs:
           repository: central-organization/master_repo
           token: ${{ secrets.SUPER_TOKEN }}
           path: master_repo
+          submodules: recursive
 
-      - run: |
-          git -C $GITHUB_WORKSPACE/master_repo submodule update --init --remote --recursive
-        shell: bash
+      # - run: |
+      #     git -C $GITHUB_WORKSPACE/master_repo submodule update --init --remote --recursive
+      #   shell: bash
 
       - name: Checkout correct branch on PR repo
         run: |
           git -C ${{ env.GIT_REPO_PATH }} checkout $GITHUB_HEAD_REF
-          echo "##############"
-          git -C ${{ env.GIT_REPO_PATH }} log
 
       - name: check PR content
         run: |
