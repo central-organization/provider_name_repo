@@ -2,6 +2,7 @@ name: Testing workflow
 
 env:
   GIT_REPO_PATH: ""
+  ARTIFACTORY_UPLOAD_PATH: /home/runner/work/outputs_for_upload
 
 on:
   # push:
@@ -35,15 +36,10 @@ jobs:
           echo "##############"
           git -C ${{ env.GIT_REPO_PATH }} log
 
-      - name: ls and print pwd
-        run: |
-          pwd
-          ls $(pwd)
-
       - name: check PR content
         run: |
           echo ${{ env.GIT_REPO_PATH }}
-          # python $GITHUB_WORKSPACE/master_repo/ci_repo/Scripts/validate_unit_configuration.py --git_repo_path $(pwd)/Provider_submodules/provider_name_repo --pr_base_sha origin/master --pr_head_sha origin/${{ github.event.pull_request.head.ref }}
+          echo $(python $GITHUB_WORKSPACE/master_repo/ci_repo/Tools/validate_pr_package/src/validate_pr_package.py --github_repo_path ${{ env.GIT_REPO_PATH }} --master_repo_path $GITHUB_WORKSPACE/master_repo --artifact_output_path ${{ env.ARTIFACTORY_UPLOAD_PATH }} --artifactory_user tu_central_org --artifactory_pass Ide_gas123)
 
   stage_1:
     needs: sanity_check
