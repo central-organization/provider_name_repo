@@ -1,13 +1,18 @@
 name: Testing workflow
 
 on:
+  push:
   pull_request:
     branches: [ master ]
     types: [ labeled ]
+  workflow_call:
+  workflow_dispatch:
+
+  
 
 jobs:
   sanity_check:
-    if: ${{ github.event.label.name == 'integration' }}
+    # if: ${{ github.event.label.name == 'integration' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,28 +24,48 @@ jobs:
     needs: sanity_check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: clone master repo and submodules
+        uses: central-organization/ci_repo/.github/actions/checkout_repo_with_submodules@master
+        with:
+          repo: central-organization/master_repo
+          ref: master
+          token: ${{ secrets.SUPER_TOKEN }}
+
+      - name: run LS
+        run: ls
 
       - name: set env variables
-      - run: echo set env variables
-      
+        run: echo set env variables
+
       - name: check python version
-      - run: python --version
+        run: python --version | grep "3.8.10" || exit 1
 
       - name: install requirements
-      - run: echo requirements
+        run: |
+          pip install -r ci_repo/Tools/test_framework/requirements.txt
 
       - name: download package archive
-      - run: echo download
+        run: echo download
 
       - name: unzip package archive
-      - run: echo unzip
+        run: echo unzip
 
       - name: run Stage-1 tests
-      - run: echo run stage-1
+        run: python ci_repo/Tools/test_framework/run_test.py
 
       - name: check if all tests passed
-      - run: echo check
+        run: echo check
 
       - name: archive and upload logs
-      - run: echo logs upload
+        if: always()
+        run: |
+          echo "__starrt__"
+          echo $GITHUB_ACTION
+          echo $GITHUB_JOB
+          echo "__end__"
+          a=$(find ~ -name pages)
+          cp $a/*.log ci_repo/Tools/test_framework/output/
+          tar -czvf build_logs_commit_timestamp.tar.gz --directory=ci_repo/Tools/test_framework output
+          export file=build_logs_commit_timestamp.tar.gz
+          python ci_repo/Scripts/artifact_upload.py  --file $file --artifactory_path https://centralorg.jfrog.io/artifactory/Output_logs/$file --username ${{ secrets.JFROG_USERNAME }} --password ${{ secrets.JFROG_PASSWORD }}
+        shell: bash
