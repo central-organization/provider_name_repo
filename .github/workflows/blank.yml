@@ -35,5 +35,7 @@ jobs:
           ls
       - name: Log git provider
         run: |
+          pwd
+          ls
           cd Provider_submodules/provider_name_repo
           git log
