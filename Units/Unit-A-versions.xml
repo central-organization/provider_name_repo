@@ -12,9 +12,9 @@
         </Compatible_OS>
         <HW_variant>Variant_1</HW_variant>
         <Artifactory_archive>
-            <File_name>Package.tar.gz</File_name>
-            <Directory_path>Packages</Directory_path>
-            <Checksum>1234567890</Checksum>
+            <File_name>Package_2.tar.gz</File_name>
+            <Directory_path>Packages_2</Directory_path>
+            <Checksum>e24b5034dc021a11705f4b21c0db5c8fa04120f577f91b62c706edea86ba3aaa</Checksum>
         </Artifactory_archive>
         <Package_mapping>
             <file_1>file_1.txt</file_1>
