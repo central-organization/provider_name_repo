@@ -33,3 +33,7 @@ jobs:
         run: |
           cd master_repo
           git log
+      - name: Log git provider
+        run: |
+          cd Provider_submodules/provider_name_repo
+          git log
