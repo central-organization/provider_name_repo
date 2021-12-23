@@ -30,4 +30,6 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Log git
-        run: ls
+        run: |
+          cd master_repo
+          git log
