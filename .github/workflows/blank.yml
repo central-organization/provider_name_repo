@@ -33,9 +33,9 @@ jobs:
         run: |
           cd master_repo
           ls
+          echo "##################################################################"
       - name: Log git provider
         run: |
-          pwd
-          ls
-          cd Provider_submodules/provider_name_repo
+          cd 
+          cd master_repo/Provider_submodules/provider_name_repo
           git log
