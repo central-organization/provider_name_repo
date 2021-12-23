@@ -36,6 +36,5 @@ jobs:
           echo "##################################################################"
       - name: Log git provider
         run: |
-          cd 
           cd master_repo/Provider_submodules/provider_name_repo
           git log
